@@ -1,0 +1,47 @@
+apply plugin: 'application'
+apply plugin: 'idea'
+apply plugin: 'java'
+
+buildscript {
+    repositories { jcenter() }
+    dependencies {
+        classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:2.2.0'
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+ext {
+    sourceCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
+    targetCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    compile 'com.netflix.karyon:karyon2-admin-web:2.7.1'
+    compile 'com.netflix.karyon:karyon2-jersey-blocking:2.7.1'
+    compile 'com.netflix.karyon:karyon2-eureka:2.7.1'
+    compile 'com.netflix.karyon:karyon2-archaius:2.7.1'
+    compile 'com.netflix.karyon:karyon2-servo:2.7.1'
+    compile 'com.netflix.hystrix:hystrix-core:1.4.15'
+    compile 'com.netflix.hystrix:hystrix-rx-netty-metrics-stream:1.4.15'
+
+
+    compile 'com.google.inject:guice:3.0'
+    compile 'org.slf4j:slf4j-api:1.7.0'
+    testCompile 'junit:junit:4.12'
+    runtime 'org.slf4j:slf4j-simple:1.7.0'
+}
+
+
+task runApp(dependsOn: [classes], type: JavaExec) {
+    group = "Service1 Group"
+    description = "Service1 App"
+
+    main = "service1.app.SampleGovernatorAppRunner"
+    classpath = sourceSets.main.runtimeClasspath
+
+    systemProperty 'java.awt.headless', 'true'
+    systemProperty 'archaius.deployment.environment', 'local'
+}

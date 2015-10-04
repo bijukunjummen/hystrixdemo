@@ -1,0 +1,25 @@
+Local Eureka
+------------
+The app registers itself with Eureka, so first start up a local eureka. A way to do this will be clone another repo here:
+
+    git clone https://github.com/bijukunjummen/spring-cloud-ping-pong-sample
+    cd spring-cloud-ping-pong-sample/sample-eureka
+    mvn spring-boot:run
+
+
+Running Rx-Netty based Karyon 2 application:
+--------------------------------------------
+
+Once Eureka is up and running, the app can be started up with the following command:
+
+    cd sample-pong
+    ./gradlew runApp
+
+The following sample endpoints are exposed:
+
+POST: http://localhost:8888/message, accepts a body of the following form:
+
+    {
+    "id": "test",
+    "payload":"Hello"
+    }
