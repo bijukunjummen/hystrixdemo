@@ -1,15 +1,20 @@
 package aggregate.config;
 
 import aggregate.service.RemoteCallService;
-import aggregate.service.RemoteCallServiceImpl;
 import com.google.inject.AbstractModule;
-import com.google.inject.Scopes;
+import feign.Feign;
+import feign.jackson.JacksonDecoder;
+import feign.jackson.JacksonEncoder;
 
 public class AppModule extends AbstractModule {
 
 
     @Override
     protected void configure() {
-        bind(RemoteCallService.class).to(RemoteCallServiceImpl.class).in(Scopes.SINGLETON);
+        RemoteCallService remoteCallService = Feign.builder()
+                .encoder(new JacksonEncoder())
+                .decoder(new JacksonDecoder())
+                .target(RemoteCallService.class, "http://localhost:8889");
+        bind(RemoteCallService.class).toInstance(remoteCallService);
     }
 }

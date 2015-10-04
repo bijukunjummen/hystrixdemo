@@ -2,8 +2,10 @@ package aggregate.service;
 
 import aggregate.domain.Message;
 import aggregate.domain.MessageAcknowledgement;
+import feign.RequestLine;
 import rx.Observable;
 
 public interface RemoteCallService {
-    Observable<MessageAcknowledgement> handleMessage(Message message);
+    @RequestLine("POST /message")
+    MessageAcknowledgement handleMessage(Message message);
 }

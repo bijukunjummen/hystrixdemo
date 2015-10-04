@@ -6,6 +6,9 @@ import aggregate.service.RemoteCallService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.netflix.governator.annotations.AutoBindSingleton;
+import feign.Feign;
+import feign.jackson.JacksonDecoder;
+import feign.jackson.JacksonEncoder;
 import io.netty.buffer.ByteBuf;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.reactivex.netty.protocol.http.server.HttpServerRequest;
@@ -21,9 +24,11 @@ public class RemoteCallController implements RequestHandler<ByteBuf, ByteBuf> {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private final RemoteCallService remoteCallService;
+//    private final RemoteCallService remoteCallService;
 
     private static final Logger logger = LoggerFactory.getLogger(RemoteCallController.class);
+
+    private final RemoteCallService remoteCallService;
 
     @Inject
     public RemoteCallController(RemoteCallService remoteCallService) {

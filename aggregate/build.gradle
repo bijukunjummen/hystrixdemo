@@ -26,6 +26,8 @@ dependencies {
     compile 'com.netflix.karyon:karyon2-servo:2.7.1'
     compile 'com.netflix.hystrix:hystrix-core:1.4.15'
     compile 'com.netflix.hystrix:hystrix-rx-netty-metrics-stream:1.4.15'
+    compile 'com.netflix.feign:feign-core:8.1.2'
+    compile 'com.netflix.feign:feign-jackson:8.1.2'
 
 
     compile 'com.google.inject:guice:3.0'
