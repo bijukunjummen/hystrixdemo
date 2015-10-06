@@ -1,6 +1,7 @@
 package aggregate.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Objects;
 
 public class Message {
 
@@ -52,5 +53,19 @@ public class Message {
 
     public void setDelayBy(int delayBy) {
         this.delayBy = delayBy;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return Objects.equal(id, message.id) &&
+                Objects.equal(payload, message.payload);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id, payload);
     }
 }

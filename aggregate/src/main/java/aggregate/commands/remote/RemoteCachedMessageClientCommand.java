@@ -5,24 +5,18 @@ import aggregate.domain.MessageAcknowledgement;
 import aggregate.service.RemoteCallService;
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
-import com.netflix.hystrix.HystrixCommandKey;
-import com.netflix.hystrix.HystrixCommandProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RemoteMessageClientCommand extends HystrixCommand<MessageAcknowledgement> {
+public class RemoteCachedMessageClientCommand extends HystrixCommand<MessageAcknowledgement> {
     private static final String COMMAND_GROUP = "demo";
-    private static final Logger logger = LoggerFactory.getLogger(RemoteMessageClientCommand.class);
+    private static final Logger logger = LoggerFactory.getLogger(RemoteCachedMessageClientCommand.class);
 
     private final RemoteCallService remoteCallService;
     private final Message message;
 
-    public RemoteMessageClientCommand(RemoteCallService remoteCallService, Message message) {
+    public RemoteCachedMessageClientCommand(RemoteCallService remoteCallService, Message message) {
         super(HystrixCommandGroupKey.Factory.asKey(COMMAND_GROUP));
-//        super(Setter
-//                .withGroupKey(HystrixCommandGroupKey.Factory.asKey(COMMAND_GROUP))
-//                .andCommandPropertiesDefaults(
-//                        HystrixCommandProperties.Setter().withExecutionTimeoutInMilliseconds(5000)));
         this.remoteCallService = remoteCallService;
         this.message = message;
     }
@@ -36,5 +30,10 @@ public class RemoteMessageClientCommand extends HystrixCommand<MessageAcknowledg
     @Override
     protected MessageAcknowledgement getFallback() {
         return new MessageAcknowledgement(message.getId(), message.getPayload(), "Fallback message");
+    }
+
+    @Override
+    protected String getCacheKey() {
+        return this.message.hashCode() + "";
     }
 }

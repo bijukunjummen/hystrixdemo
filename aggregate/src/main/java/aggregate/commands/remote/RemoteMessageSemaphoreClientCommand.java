@@ -5,24 +5,24 @@ import aggregate.domain.MessageAcknowledgement;
 import aggregate.service.RemoteCallService;
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
-import com.netflix.hystrix.HystrixCommandKey;
 import com.netflix.hystrix.HystrixCommandProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RemoteMessageClientCommand extends HystrixCommand<MessageAcknowledgement> {
+public class RemoteMessageSemaphoreClientCommand extends HystrixCommand<MessageAcknowledgement> {
     private static final String COMMAND_GROUP = "demo";
-    private static final Logger logger = LoggerFactory.getLogger(RemoteMessageClientCommand.class);
+    private static final Logger logger = LoggerFactory.getLogger(RemoteMessageSemaphoreClientCommand.class);
 
     private final RemoteCallService remoteCallService;
     private final Message message;
 
-    public RemoteMessageClientCommand(RemoteCallService remoteCallService, Message message) {
-        super(HystrixCommandGroupKey.Factory.asKey(COMMAND_GROUP));
-//        super(Setter
-//                .withGroupKey(HystrixCommandGroupKey.Factory.asKey(COMMAND_GROUP))
-//                .andCommandPropertiesDefaults(
-//                        HystrixCommandProperties.Setter().withExecutionTimeoutInMilliseconds(5000)));
+    public RemoteMessageSemaphoreClientCommand(RemoteCallService remoteCallService, Message message) {
+        super(Setter
+                .withGroupKey(HystrixCommandGroupKey.Factory.asKey(COMMAND_GROUP))
+                .andCommandPropertiesDefaults(
+                        HystrixCommandProperties.Setter()
+                                .withExecutionTimeoutInMilliseconds(5000)
+                                .withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.SEMAPHORE)));
         this.remoteCallService = remoteCallService;
         this.message = message;
     }
