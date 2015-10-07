@@ -1,6 +1,6 @@
 package aggregate.app;
 
-import aggregate.commands.remote.RemoteCachedMessageClientCommand;
+import aggregate.commands.cached.RemoteCachedMessageClientCommand;
 import aggregate.domain.Message;
 import aggregate.domain.MessageAcknowledgement;
 import aggregate.service.RemoteCallService;

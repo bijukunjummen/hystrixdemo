@@ -18,6 +18,10 @@ public class AppRouteProvider implements Provider<SimpleUriRouter<ByteBuf, ByteB
     private HelloWorldController helloWorldController;
 
     @Inject
+    private HelloWorldObservableController helloWorldObservableController;
+
+
+    @Inject
     private RemoteCallController remoteCallController;
 
     @Inject
@@ -38,6 +42,7 @@ public class AppRouteProvider implements Provider<SimpleUriRouter<ByteBuf, ByteB
         simpleUriRouter.addUri("/messageCached", remoteCachedController);
         simpleUriRouter.addUri("/hystrix.stream", new HystrixMetricsStreamHandler<>(simpleUriRouter));
         simpleUriRouter.addUri("/hello", helloWorldController);
+        simpleUriRouter.addUri("/helloObservable", helloWorldObservableController);
         simpleUriRouter.addUri("/fallback", fallbackController);
         return simpleUriRouter;
     }

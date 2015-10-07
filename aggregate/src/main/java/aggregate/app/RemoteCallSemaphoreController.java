@@ -1,7 +1,6 @@
 package aggregate.app;
 
-import aggregate.commands.remote.RemoteMessageClientCommand;
-import aggregate.commands.remote.RemoteMessageSemaphoreClientCommand;
+import aggregate.commands.semaphore.RemoteMessageSemaphoreClientCommand;
 import aggregate.domain.Message;
 import aggregate.service.RemoteCallService;
 import com.fasterxml.jackson.databind.ObjectMapper;
