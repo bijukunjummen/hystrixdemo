@@ -1,11 +1,14 @@
 package aggregate.app;
 
-import aggregate.commands.semaphore.SemaphoreClientCommand;
+import aggregate.commands.remote.RemoteMessageClientCommand;
 import aggregate.domain.Message;
 import aggregate.service.RemoteCallService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.netflix.governator.annotations.AutoBindSingleton;
+import feign.Feign;
+import feign.jackson.JacksonDecoder;
+import feign.jackson.JacksonEncoder;
 import io.netty.buffer.ByteBuf;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.reactivex.netty.protocol.http.server.HttpServerRequest;
@@ -17,17 +20,16 @@ import rx.Observable;
 
 
 @AutoBindSingleton
-public class RemoteCallSemaphoreController implements RequestHandler<ByteBuf, ByteBuf> {
+public class NoHystrixController implements RequestHandler<ByteBuf, ByteBuf> {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-
-    private static final Logger logger = LoggerFactory.getLogger(RemoteCallSemaphoreController.class);
+    private static final Logger logger = LoggerFactory.getLogger(RemoteCallController.class);
 
     private final RemoteCallService remoteCallService;
 
     @Inject
-    public RemoteCallSemaphoreController(RemoteCallService remoteCallService) {
+    public NoHystrixController(RemoteCallService remoteCallService) {
         this.remoteCallService = remoteCallService;
     }
 
@@ -41,9 +43,9 @@ public class RemoteCallSemaphoreController implements RequestHandler<ByteBuf, By
                     Message message = new Message("id", msg, throwException, delayBy);
                     return message;
                 })
-                .flatMap(message -> {
+                .map(message -> {
                     logger.info("About to make remote call");
-                    return new SemaphoreClientCommand(this.remoteCallService, message).observe();
+                    return remoteCallService.handleMessage(message);
                 })
                 .flatMap(ack -> {
                             try {

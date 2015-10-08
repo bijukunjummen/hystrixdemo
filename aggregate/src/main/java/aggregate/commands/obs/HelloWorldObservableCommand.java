@@ -21,6 +21,6 @@ public class HelloWorldObservableCommand extends HystrixObservableCommand<String
 
     @Override
     protected Observable<String> construct() {
-        return Observable.just(this.name);
+        return Observable.just("Hello " + this.name);
     }
 }

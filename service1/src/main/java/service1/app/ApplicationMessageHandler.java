@@ -1,7 +1,5 @@
 package service1.app;
 
-import service1.domain.Message;
-import service1.service.MessageHandlerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import io.netty.buffer.ByteBuf;
@@ -10,6 +8,8 @@ import io.reactivex.netty.protocol.http.server.HttpServerRequest;
 import io.reactivex.netty.protocol.http.server.HttpServerResponse;
 import io.reactivex.netty.protocol.http.server.RequestHandler;
 import rx.Observable;
+import service1.domain.Message;
+import service1.service.MessageHandlerService;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

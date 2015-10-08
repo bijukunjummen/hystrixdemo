@@ -33,6 +33,9 @@ public class AppRouteProvider implements Provider<SimpleUriRouter<ByteBuf, ByteB
     @Inject
     private FallbackController fallbackController;
 
+    @Inject
+    private NoHystrixController noHystrixController;
+
     @Override
     public SimpleUriRouter get() {
         SimpleUriRouter simpleUriRouter = new SimpleUriRouter();
@@ -43,6 +46,7 @@ public class AppRouteProvider implements Provider<SimpleUriRouter<ByteBuf, ByteB
         simpleUriRouter.addUri("/hystrix.stream", new HystrixMetricsStreamHandler<>(simpleUriRouter));
         simpleUriRouter.addUri("/hello", helloWorldController);
         simpleUriRouter.addUri("/helloObservable", helloWorldObservableController);
+        simpleUriRouter.addUri("/noHystrix", noHystrixController);
         simpleUriRouter.addUri("/fallback", fallbackController);
         return simpleUriRouter;
     }

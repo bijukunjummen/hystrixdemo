@@ -1,6 +1,6 @@
 package aggregate.app;
 
-import aggregate.commands.cached.RemoteCachedMessageClientCommand;
+import aggregate.commands.cached.CachedClientCommand;
 import aggregate.domain.Message;
 import aggregate.domain.MessageAcknowledgement;
 import aggregate.service.RemoteCallService;
@@ -46,8 +46,8 @@ public class RemoteCachedController implements RequestHandler<ByteBuf, ByteBuf> 
                 })
                 .flatMap(message -> {
                     logger.info("About to make remote call");
-                    Observable<MessageAcknowledgement> resp1 = new RemoteCachedMessageClientCommand(this.remoteCallService, message).observe();
-                    Observable<MessageAcknowledgement> resp2 = new RemoteCachedMessageClientCommand(this.remoteCallService, message).observe();
+                    Observable<MessageAcknowledgement> resp1 = new CachedClientCommand(this.remoteCallService, message).observe();
+                    Observable<MessageAcknowledgement> resp2 = new CachedClientCommand(this.remoteCallService, message).observe();
                     return resp1.mergeWith(resp2);
 
                 })

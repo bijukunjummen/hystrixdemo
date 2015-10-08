@@ -14,7 +14,7 @@ public class AppModule extends AbstractModule {
         RemoteCallService remoteCallService = Feign.builder()
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
-                .target(RemoteCallService.class, "http://localhost:8889");
+                .target(RemoteCallService.class, "http://127.0.0.1:8889");
         bind(RemoteCallService.class).toInstance(remoteCallService);
     }
 }
