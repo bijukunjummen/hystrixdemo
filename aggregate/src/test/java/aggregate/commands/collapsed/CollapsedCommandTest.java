@@ -1,7 +1,5 @@
-package aggregate.command.collapsed;
+package aggregate.commands.collapsed;
 
-import aggregate.commands.collapsed.Person;
-import aggregate.commands.collapsed.PersonRequestCollapser;
 import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
 import org.junit.Test;
 import org.slf4j.Logger;

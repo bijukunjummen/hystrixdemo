@@ -1,6 +1,5 @@
-package aggregate.command.fallback;
+package aggregate.commands.fallback;
 
-import aggregate.commands.fallback.FallbackCommand;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
